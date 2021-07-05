@@ -5,6 +5,7 @@ COEX is a well-founded reference ontology, specified in OntoUML, that formally c
 ## Project Structure
 
 * [/ontouml](/ontouml) contains files related to the conceptual version of COEX, which was modelled in OntoUML.
+* [/owl](/owl) contains files related to the gUFO-based implementation of COEX, represented in OWL.
 
 
 ## Reusing .vpp files
