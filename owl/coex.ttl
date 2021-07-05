@@ -1,0 +1,269 @@
+@prefix : <https://purl.org/krdb-core/coex#>.
+@prefix gufo: <http://purl.org/nemo/gufo#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+
+<https://purl.org/krdb-core/coex#> rdf:type owl:Ontology;
+    owl:imports gufo:.
+:Agent rdf:type owl:Class, gufo:Category, owl:NamedIndividual;
+    rdfs:subClassOf gufo:FunctionalComplex;
+    rdfs:label "Agent"@en.
+:EconomicOffering rdf:type owl:Class, gufo:Kind, owl:NamedIndividual;
+    rdfs:subClassOf gufo:Relator;
+    rdfs:label "Economic Offering"@en.
+:Offer rdf:type owl:Class, gufo:EventType, owl:NamedIndividual;
+    rdfs:subClassOf gufo:Event;
+    rdfs:label "Offer"@en.
+:Preference rdf:type owl:Class, gufo:Kind, owl:NamedIndividual;
+    rdfs:subClassOf gufo:IntrinsicMode;
+    rdfs:label "Preference"@en.
+:Offeror rdf:type owl:Class, gufo:RoleMixin, owl:NamedIndividual;
+    rdfs:label "Offeror"@en.
+:Offeree rdf:type owl:Class, gufo:RoleMixin, owl:NamedIndividual;
+    rdfs:label "Offeree"@en.
+:ConditionalCommitment rdf:type owl:Class, gufo:Kind, owl:NamedIndividual;
+    rdfs:subClassOf gufo:IntrinsicMode;
+    rdfs:label "Conditional Commitment"@en.
+:ConditionalClaim rdf:type owl:Class, gufo:Kind, owl:NamedIndividual;
+    rdfs:subClassOf gufo:IntrinsicMode;
+    rdfs:label "Conditional Claim"@en.
+:OfferedContributionType rdf:type owl:NamedIndividual;
+    rdfs:subClassOf gufo:ConcreteIndividualType;
+    rdfs:label "Offered Contribution Type"@en.
+:CounterpartContributionType rdf:type owl:NamedIndividual;
+    rdfs:subClassOf gufo:ConcreteIndividualType;
+    rdfs:label "Counterpart Contribution Type"@en.
+:EconomicExchangeType rdf:type owl:NamedIndividual;
+    rdfs:subClassOf gufo:ConcreteIndividualType;
+    rdfs:label "Economic Exchange Type"@en.
+:EconomicAgreement rdf:type owl:Class, gufo:Kind, owl:NamedIndividual;
+    rdfs:subClassOf gufo:Relator;
+    rdfs:label "Economic Agreement"@en.
+:OfferorUnconditionalAgreement rdf:type owl:Class, gufo:Kind, owl:NamedIndividual;
+    rdfs:subClassOf gufo:IntrinsicMode;
+    rdfs:label "Offeror Unconditional Agreement"@en.
+:OffereeUnconditionalAgreement rdf:type owl:Class, gufo:Kind, owl:NamedIndividual;
+    rdfs:subClassOf gufo:IntrinsicMode;
+    rdfs:label "Offeree Unconditional Agreement"@en.
+:EconomicExchange rdf:type owl:Class, gufo:EventType, owl:NamedIndividual;
+    rdfs:subClassOf gufo:Event;
+    rdfs:label "Economic Exchange"@en.
+:OfferedContribution rdf:type owl:Class, gufo:EventType, owl:NamedIndividual;
+    rdfs:subClassOf gufo:Event;
+    rdfs:label "Offered Contribution"@en.
+:CounterpartContribution rdf:type owl:Class, gufo:EventType, owl:NamedIndividual;
+    rdfs:subClassOf gufo:Event;
+    rdfs:label "Counterpart Contribution"@en.
+:Offeror rdfs:subClassOf :Agent.
+:Offeree rdfs:subClassOf :Agent.
+:commitsTo rdf:type owl:ObjectProperty;
+    rdfs:domain :ConditionalCommitment;
+    rdfs:range :OfferedContributionType;
+    rdfs:label "commits to"@en.
+:inReturnFor rdf:type owl:ObjectProperty;
+    rdfs:domain :ConditionalCommitment;
+    rdfs:range :CounterpartContributionType;
+    rdfs:label "in return for"@en.
+:participatesToEventsOfType_1 rdf:type owl:ObjectProperty;
+    rdfs:domain :Offeror;
+    rdfs:range :OfferedContributionType;
+    rdfs:label "participates to events of type"@en.
+:participatesToEventsOfType rdf:type owl:ObjectProperty;
+    rdfs:domain :Offeree;
+    rdfs:range :CounterpartContributionType;
+    rdfs:label "participates to events of type"@en.
+:requires_1 rdf:type owl:ObjectProperty;
+    rdfs:domain :EconomicExchangeType;
+    rdfs:range :OfferedContributionType;
+    rdfs:label "requires"@en.
+:requires rdf:type owl:ObjectProperty;
+    rdfs:domain :EconomicExchangeType;
+    rdfs:range :CounterpartContributionType;
+    rdfs:label "requires"@en.
+:towards rdf:type owl:ObjectProperty;
+    rdfs:domain :Preference;
+    rdfs:range :EconomicExchangeType;
+    rdfs:label "towards"@en.
+:OfferedContributionType gufo:categorizes :OfferedContribution.
+:CounterpartContribution gufo:categorizes :CounterpartContributionType.
+:Preference rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:inheresIn;
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Agent
+].
+:Offer rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:manifestedIn;
+  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Preference
+], [
+  rdf:type owl:Restriction;
+  owl:onProperty [ owl:inverseOf gufo:participatedIn ];
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Offeror
+].
+:Offeror rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:participatedIn;
+  owl:someValuesFrom :Offer
+].
+:Offer rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty [ owl:inverseOf gufo:participatedIn ];
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Offeree
+].
+:Offeree rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:participatedIn;
+  owl:someValuesFrom :Offer
+].
+:EconomicOffering rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty [ owl:inverseOf gufo:wasCreatedIn ];
+  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Offer
+].
+:Offer rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:wasCreatedIn;
+  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :EconomicOffering
+].
+:Offeror rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty [ owl:inverseOf gufo:mediates ];
+  owl:someValuesFrom :EconomicOffering
+].
+:EconomicOffering rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:mediates;
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Offeror
+].
+:Offeree rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty [ owl:inverseOf gufo:mediates ];
+  owl:someValuesFrom :EconomicOffering
+].
+:EconomicOffering rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:mediates;
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Offeree
+].
+:Offeror rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty [ owl:inverseOf gufo:inheresIn ];
+  owl:someValuesFrom :ConditionalCommitment
+].
+:ConditionalCommitment rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:inheresIn;
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Offeror
+].
+:Offeree rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty [ owl:inverseOf gufo:inheresIn ];
+  owl:someValuesFrom :ConditionalClaim
+].
+:ConditionalClaim rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:inheresIn;
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Offeree
+].
+:Offeree rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty [ owl:inverseOf gufo:externallyDependsOn ];
+  owl:someValuesFrom :ConditionalCommitment
+].
+:ConditionalCommitment rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:externallyDependsOn;
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Offeree
+].
+:Offeror rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty [ owl:inverseOf gufo:externallyDependsOn ];
+  owl:someValuesFrom :ConditionalClaim
+].
+:ConditionalClaim rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:externallyDependsOn;
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Offeror
+].
+:Offeror rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty [ owl:inverseOf gufo:mediates ];
+  owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :EconomicAgreement
+].
+:EconomicAgreement rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:mediates;
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Offeror
+], [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:mediates;
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Offeree
+], [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:historicallyDependsOn;
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :EconomicOffering
+].
+:OfferorUnconditionalAgreement rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:inheresIn;
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Offeror
+].
+:OffereeUnconditionalAgreement rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:inheresIn;
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Offeree
+].
+:OfferorUnconditionalAgreement rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:externallyDependsOn;
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Offeree
+].
+:OffereeUnconditionalAgreement rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:externallyDependsOn;
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Offeror
+].
+:OfferorUnconditionalAgreement rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:externallyDependsOn;
+  owl:someValuesFrom :OfferedContributionType
+].
+:OffereeUnconditionalAgreement rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty gufo:externallyDependsOn;
+  owl:someValuesFrom :CounterpartContributionType
+].
+:OfferedContribution rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty [ owl:inverseOf gufo:participatedIn ];
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Offeror
+].
+:CounterpartContribution rdfs:subClassOf [
+  rdf:type owl:Restriction;
+  owl:onProperty [ owl:inverseOf gufo:participatedIn ];
+  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger;
+  owl:onClass :Offeree
+].
