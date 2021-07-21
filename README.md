@@ -1,4 +1,4 @@
-# COEX: Core Ontology of Economic Exchanges
+# COEX: Core Ontology for Economic Exchanges
 
 COEX is a well-founded reference ontology, specified in OntoUML, that formally characterizes the concept of economic exchanges based on the Action Theory of Economic Exchanges. 
 
