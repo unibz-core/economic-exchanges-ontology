@@ -1,11 +1,12 @@
 @prefix : <https://purl.org/krdb-core/coex#>.
 @prefix gufo: <http://purl.org/nemo/gufo#>.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix coex: <https://purl.org/krdb-core/coex#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix owl: <http://www.w3.org/2002/07/owl#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 
-<https://purl.org/krdb-core/coex#> rdf:type owl:Ontology;
+<https://purl.org/krdb-core/coex> rdf:type owl:Ontology;
     owl:imports gufo:.
 :Agent rdf:type owl:Class, gufo:Category, owl:NamedIndividual;
     rdfs:subClassOf gufo:FunctionalComplex;
@@ -58,6 +59,12 @@
     rdfs:label "Counterpart Contribution"@en.
 :Offeror rdfs:subClassOf :Agent.
 :Offeree rdfs:subClassOf :Agent.
+:conditionalCommitmentHasEconomicOffering rdf:type owl:ObjectProperty;
+    rdfs:domain :ConditionalCommitment;
+    rdfs:range :EconomicOffering.
+:conditionalClaimHasEconomicOffering rdf:type owl:ObjectProperty;
+    rdfs:domain :ConditionalClaim;
+    rdfs:range :EconomicOffering.
 :commitsTo rdf:type owl:ObjectProperty;
     rdfs:domain :ConditionalCommitment;
     rdfs:range :OfferedContributionType;
@@ -88,6 +95,12 @@
     rdfs:label "towards"@en.
 :OfferedContributionType gufo:categorizes :OfferedContribution.
 :CounterpartContribution gufo:categorizes :CounterpartContributionType.
+:offeredContributionHasEconomicExchange rdf:type owl:ObjectProperty;
+    rdfs:domain :OfferedContribution;
+    rdfs:range :EconomicExchange.
+:counterpartContributionHasEconomicExchange rdf:type owl:ObjectProperty;
+    rdfs:domain :CounterpartContribution;
+    rdfs:range :EconomicExchange.
 :Preference rdfs:subClassOf [
   rdf:type owl:Restriction;
   owl:onProperty gufo:inheresIn;
